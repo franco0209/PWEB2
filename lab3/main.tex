@@ -1,0 +1,349 @@
+%package list
+\documentclass{article}
+\usepackage[top=3cm, bottom=3cm, outer=3cm, inner=3cm]{geometry}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{url}
+%\usepackage{cite}
+\usepackage{hyperref}
+\usepackage{array}
+%\usepackage{multicol}
+\newcolumntype{x}[1]{>{\centering\arraybackslash\hspace{0pt}}p{#1}}
+\usepackage{natbib}
+\usepackage{pdfpages}
+\usepackage{multirow}
+\usepackage[normalem]{ulem}
+\useunder{\uline}{\ul}{}
+\usepackage{svg}
+\usepackage{xcolor}
+\usepackage{listings}
+\lstdefinestyle{ascii-tree}{
+    literate={├}{|}1 {─}{--}1 {└}{+}1 
+  }
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
+%\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{array}
+
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{N}{@{}m{0pt}@{}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\itemEmail}{fcahua@unsa.edu.pe}
+\newcommand{\itemStudent}{Franco Jesus Cahua Soto}
+\newcommand{\itemCourse}{Programación Web 2}
+\newcommand{\itemCourseCode}{20222171}
+\newcommand{\itemSemester}{I}
+\newcommand{\itemUniversity}{Universidad Nacional de San Agustín de Arequipa}
+\newcommand{\itemFaculty}{Facultad de Ingeniería de Producción y Servicios}
+\newcommand{\itemDepartment}{Departamento Académico de Ingeniería de Sistemas e Informática}
+\newcommand{\itemSchool}{Escuela Profesional de Ingeniería de Sistemas}
+\newcommand{\itemAcademic}{2043 - A}
+\newcommand{\itemInput}{}
+\newcommand{\itemOutput}{}
+\newcommand{\itemPracticeNumber}{3}
+\newcommand{\itemTheme}{JavaScript)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[english,spanish]{babel}
+\usepackage[utf8]{inputenc}
+\AtBeginDocument{\selectlanguage{spanish}}
+\renewcommand{\figurename}{Figura}
+\renewcommand{\refname}{Referencias}
+\renewcommand{\tablename}{Tabla} %esto no funciona cuando se usa babel
+\AtBeginDocument{%
+	\renewcommand\tablename{Tabla}
+}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{30pt}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\fancyhead[L]{\raisebox{-0.2\height}{\includegraphics[width=3cm]{logo_episunsa.png}}}
+\fancyhead[C]{\fontsize{7}{7}\selectfont	\itemUniversity \\ \itemFaculty \\ \itemDepartment \\ \itemSchool \\ \textbf{\itemCourse}}
+\fancyhead[R]{\raisebox{-0.2\height}{\includegraphics[width=1.2cm]{abet.png}}}
+\fancyfoot[L]{Estudiante Franco Jesus Cahua Soto}
+\fancyfoot[C]{\itemCourse}
+\fancyfoot[R]{Página \thepage}
+
+% para el codigo fuente
+\usepackage{listings}
+\usepackage{color, colortbl}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{codebackground}{rgb}{0.95, 0.95, 0.92}
+\definecolor{tablebackground}{rgb}{0.8, 0, 0}
+
+\lstset{frame=tb,
+	language=bash,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3,
+	backgroundcolor= \color{codebackground},
+}
+
+\begin{document}
+	
+	\vspace*{10px}
+	
+	\begin{center}	
+		\fontsize{17}{17} \textbf{ Informe de Laboratorio \itemPracticeNumber}
+	\end{center}
+	\centerline{\textbf{\Large Tema: \itemTheme}}
+	%\vspace*{0.5cm}	
+
+	\begin{flushright}
+		\begin{tabular}{|M{2.5cm}|N|}
+			\hline 
+			\rowcolor{tablebackground}
+			\color{white} \textbf{Nota}  \\
+			\hline 
+			     \\[30pt]
+			\hline 			
+		\end{tabular}
+	\end{flushright}	
+
+	\begin{table}[H]
+		\begin{tabular}{|x{4.7cm}|x{4.8cm}|x{4.8cm}|}
+			\hline 
+			\rowcolor{tablebackground}
+			\color{white} \textbf{Estudiante} & \color{white}\textbf{Escuela}  & \color{white}\textbf{Asignatura}   \\
+			\hline 
+			{\itemStudent \par \itemEmail} & \itemSchool & {\itemCourse \par Semestre: \itemSemester \par Código: \itemCourseCode}     \\
+			\hline 			
+		\end{tabular}
+	\end{table}		
+	
+	\begin{table}[H]
+		\begin{tabular}{|x{4.7cm}|x{4.8cm}|x{4.8cm}|}
+			\hline 
+			\rowcolor{tablebackground}
+			\color{white}\textbf{Laboratorio} & \color{white}\textbf{Tema}  & \color{white}\textbf{Duración}   \\
+			\hline 
+			\itemPracticeNumber & \itemTheme & 04 horas   \\
+			\hline 
+		\end{tabular}
+	\end{table}
+	
+	\begin{table}[H]
+		\begin{tabular}{|x{4.7cm}|x{4.8cm}|x{4.8cm}|}
+			\hline 
+			\rowcolor{tablebackground}
+			\color{white}\textbf{Semestre académico} & \color{white}\textbf{Fecha de inicio}  & \color{white}\textbf{Fecha de entrega}   \\
+			\hline 
+			\itemAcademic & \itemInput &  \itemOutput  \\
+			\hline 
+		\end{tabular}
+	\end{table}
+
+    \section{TAREA}
+	\begin{itemize}	
+
+    \section{URL DE REPOSITORIO GITHUB}
+	\begin{itemize}
+		\item URL para el Repositorio GitHub.
+		\item \url{https://github.com/franco0209/PWEB2}
+		\item URL para el laboratorio 3 en el Repositorio GitHub.	
+        \item \url{https://github.com/franco0209/PWEB2/tree/main/lab3}
+	\end{itemize}
+    \section{EJERCICIO PROPUESTO}
+\begin{itemize}
+    \item \textcolor{red}{PROBLEMA 01}
+    
+    Escriba una función que reciba el número de día de la fecha actual \href{https://www.w3schools.com/jsref/jsref_obj_date.asp}{new Date()} y devuelva el texto del día de la semana correspondiente. Por ejemplo, si recibe 0, devolvería “Domingo”.
+    
+    \item Solución:
+    \begin{verbatim}
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>JavaScript Dates</title>
+    </head>
+    <body>
+        <h1>JavaScript Dates</h1>
+        <h2>The new Date() Method</h2>
+
+        <p>Create a date using ISO notation:</p>
+
+        <p id="demo"></p>
+
+        <script>
+            function obtenerDiaSemana(numeroDia) {
+                const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+                const fechaActual = new Date();
+                const diaActual = fechaActual.getDay(); // Devuelve un número del 0 al 6 representando el día de la semana
+                const diaDeseado = (diaActual + numeroDia) % 7;
+                return diasSemana[diaDeseado];
+            }
+
+            const time = obtenerDiaSemana(0);
+            document.getElementById("demo").innerHTML = time;
+        </script>
+
+    </body>
+    </html>
+    \end{verbatim}
+
+\end{itemize}
+\begin{itemize}
+    \item \textcolor{red}{PROBLEMA 02}
+    
+    Escriba una página web que reciba un texto y al presionar un botón muestre el mismo texto invertido en otra sección (div). Por ejemplo si se escribe “Hola”, se mostraría como “aloH”.
+    
+    \item Solución:
+    \begin{verbatim}
+    <!DOCTYPE html>
+    <html>
+    <body>
+        <h1>JavaScript Text</h1>
+        <input type="text" id="texto" placeholder="Escribe una palabra...">
+        <button id="boton" onclick="boton()">Haz clic aquí para mostrar la palabra invertida: </button>
+        <p id="demo"></p>
+        <script>
+            function invertirTexto(texto) {
+                let invertido = "";
+                for (let i = texto.length - 1; i >= 0; i--) {
+                    invertido = invertido + texto[i];
+                }
+                return invertido;
+            }
+    
+            function boton() {
+                var txt = document.getElementById("texto").value;
+                let texto = invertirTexto(txt);
+                document.getElementById("demo").innerHTML = texto;
+            }
+        </script>
+    </body>
+    </html>
+    
+    \end{verbatim}
+
+\end{itemize}
+\begin{itemize}
+    \item \textcolor{red}{PROBLEMA 03}
+    
+    Escribir una página que muestre cuántos días faltan para el día de Arequipa!
+    
+    \item Solución:
+    \begin{verbatim}
+    <!DOCTYPE html>
+<html>
+<body>
+    <h1>JavaScript Text</h1>
+    <input type="text" id="dia" placeholder="Escribe el día actual...">
+    <p></p>
+    <input type="text" id="mes" placeholder="Escribe el mes actual...">
+    <p></p>
+    <button id="boton" onclick="boton()">Mostrar cuantos días faltan para el día de Arequipa: </button>
+    <p id="demo"></p>
+    <script>
+        function calcularDistancia(dia, mes) {
+            try {
+            	var aqp=new Date(2024,7,15);
+                var hoy=new Date(2024,mes-1,dia);
+                var diff=((aqp-hoy)/(1000*60*60*24));
+                if(diff<0){
+                	diff=365+diff;
+                }
+                return diff;
+            } catch (error) {
+                return "Datos inválidos";
+            }
+        }
+
+        function boton() {
+            var day = parseInt(document.getElementById("dia").value, 10);
+            var month = parseInt(document.getElementById("mes").value, 10);
+
+            let texto = "Faltan " +calcularDistancia(day, month) +" días para el aniversario de Arequipa";
+            document.getElementById("demo").innerHTML = texto;
+        }
+    </script>
+</body>
+</html>
+
+    
+    \end{verbatim}
+
+\end{itemize}
+\begin{itemize}
+    \item \textcolor{red}{PROBLEMA 04}
+    
+    Escribir una página que muestre cuántos días faltan para el día de Arequipa!
+    
+    \item Solución:
+    \begin{verbatim}
+    <!DOCTYPE html>
+<html>
+<body>
+    <h1>JavaScript Text</h1>
+    <input type="text" id="dia" placeholder="Escribe el día actual...">
+    <p></p>
+    <input type="text" id="mes" placeholder="Escribe el mes actual...">
+    <p></p>
+    <button id="boton" onclick="boton()">Mostrar cuantos días faltan para el día de Arequipa: </button>
+    <p id="demo"></p>
+    <script>
+        function calcularDistancia(dia, mes) {
+            try {
+            	var aqp=new Date(2024,7,15);
+                var hoy=new Date(2024,mes-1,dia);
+                var diff=((aqp-hoy)/(1000*60*60*24));
+                if(diff<0){
+                	diff=365+diff;
+                }
+                return diff;
+            } catch (error) {
+                return "Datos inválidos";
+            }
+        }
+
+        function boton() {
+            var day = parseInt(document.getElementById("dia").value, 10);
+            var month = parseInt(document.getElementById("mes").value, 10);
+
+            let texto = "Faltan " +calcularDistancia(day, month) +" días para el aniversario de Arequipa";
+            document.getElementById("demo").innerHTML = texto;
+        }
+    </script>
+</body>
+</html>
+
+    
+    \end{verbatim}
+
+\end{itemize}
+
+  \section{W3SCHOOLS}
+  \begin{figure}[h]
+  \centering
+  \includegraphics[width=1.5\textwidth]{Screenshot (23).png}
+  \label{fig:imagen_ejemplo}
+\end{figure}
+
+  
+			
+\end{document}
