@@ -10,8 +10,6 @@ class Simple(models.Model):
     def __str__(self):
         return self.url
 
-class DataExample(models.Model):
-    the_date=models.DateTimeField()
 
 class NullExample(models.Model):
     col=models.CharField(max_length=10,blank=True, null=True)
@@ -31,14 +29,13 @@ class Framework(models.Model):
 
 class Movie(models.Model):
     name=models.CharField(max_length=10)
-
-    def _str_(self):
+    def __str__(self):
         return self.name
     
 class Character(models.Model):
     name=models.CharField(max_length=10)
     movies= models.ManyToManyField(Movie)
 
-    def _str_(self):
+    def __str__(self):
         return self.name    
      
