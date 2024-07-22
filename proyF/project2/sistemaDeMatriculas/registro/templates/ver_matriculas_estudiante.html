@@ -1,0 +1,36 @@
+{% extends 'plantilla.html' %}
+
+{% block title %}Ver Matrículas de Estudiantes{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Ver Matrículas de Estudiantes</h2>
+        <form method="POST" class="mb-4">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="estudiante" style="color: white;">Selecciona un Estudiante:</label>
+                <select name="codigo_estudiante" id="estudiante" class="form-control">
+                    <option value="">-- Selecciona un Estudiante --</option>
+                    {% for estudiante in estudiantes %}
+                        <option value="{{ estudiante.codigo }}" {% if selected_estudiante and selected_estudiante.codigo == estudiante.codigo %}selected{% endif %}>
+                            {{ estudiante.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Ver Cursos</button>
+        </form>
+
+        {% if selected_estudiante %}
+            <h5 style="color: aliceblue;">Codigo:  {{ selected_estudiante.codigo }}</h5>
+            <h3 style="color: aliceblue;">Cursos en los que está matriculado {{ selected_estudiante.nombre |upper}}:</h3>
+            <ul class="list-group">
+                {% for curso in cursos %}
+                    <li class="list-group-item">{{ curso.nombre }}</li>
+                {% empty %}
+                    <li class="list-group-item">No hay cursos matriculados.</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}

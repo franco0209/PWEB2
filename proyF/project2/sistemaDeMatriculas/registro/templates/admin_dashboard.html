@@ -1,0 +1,42 @@
+{% extends 'plantilla.html' %}
+
+{% block title %}Panel de Administración{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Panel de Administración</h2>
+        <div class="row">
+            <!-- Administrar Cursos -->
+            <div class="col-md-4 text-center mb-3">
+                <div class="card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5352/5352122.png" class="card-img-top" alt="Administrar Cursos" style="width: 150px; height: 150px; margin: auto;">
+                    <div class="card-body">
+                        <h5 class="card-title">Administrar Cursos</h5>
+                        <a href="/adminCursos/" class="btn btn-primary">Ir a Cursos</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Administrar Matrículas -->
+            <div class="col-md-4 text-center mb-3">
+                <div class="card">
+                    <img src="https://images.vexels.com/media/users/3/141317/isolated/preview/80ddad15a4488ddf2f19da81274e727e-icono-de-clase-de-ensenanza.png" class="card-img-top" alt="Administrar Matrículas" style="width: 150px; height: 150px; margin: auto;">
+                    <div class="card-body">
+                        <h5 class="card-title"> Matrículas</h5>
+                        <a href="{% url 'ver_matriculas_estudiante' %}" class="btn btn-primary">Ver Matrículas por Estudiante</a>
+                        <a href="{% url 'lista_cursos_estudiante' %}" class="btn btn-primary mt-2">Matrícular por Curso</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Administrar Estudiantes -->
+            <div class="col-md-4 text-center mb-3">
+                <div class="card">
+                    <img src="https://cdn.icon-icons.com/icons2/1860/PNG/512/student3_118006.png" class="card-img-top" alt="Administrar Estudiantes" style="width: 150px; height: 150px; margin: auto;">
+                    <div class="card-body">
+                        <h5 class="card-title">Administrar Estudiantes</h5>
+                        <a href="/adminEstudiantes/" class="btn btn-primary">Ir a Estudiantes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
