@@ -17,10 +17,15 @@
                     <nav id="nav" class="">
                         <ul id="links">
                             <li><a href="#inicio" class="seleccionado"> INICIO </a></li>
-                            <li><a href="#sobremi"> INTEGRANTES </a></li>
                             <li><a href="https://fips.unsa.edu.pe/"> ESCUELA PROFESIONAL</a> </a></li>
-                            <li><a href="https://www.unsa.edu.pe/" > UNIVERSIDAD </a></li>
                             <li><a href="http://127.0.0.1:8000/" > PRINCIPAL </a></li>
+                            <li><a href="http://127.0.0.1:8000/login" > LOGIN </a></li>
+                            <li>
+                                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" style="background:none; border:none; color:#FF0000; cursor:pointer;">LOGOUT</button>
+                                </form>
+                            </li>
                         </ul>
                     </nav>
                     <div id="icono-nav">
@@ -56,15 +61,5 @@
         <script src="{% static 'js/cursos.js' %}"></script>
     </section>
 
-    <!-- SOBRE MI -->
-    <section id="sobremi">
-        <div class="sobremi">
-            <p class="titulo-seccion">Integrantes: </p>
-            <h3>- <span>Roni Companocca Checco</span></h3>
-            <h3>- <span>Sebastian Alfredo Riveros Valeriano</span></h3>
-            <h3>- <span>Franco Jesus Cahua Soto</span></h3>
-            <h3>- <span>Rodrigo Ferdinand Quispe Huaman</span></h3>
-        </div>
-    </section>
 </body>
 </html>
