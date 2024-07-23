@@ -27,5 +27,10 @@ router.register(r'estudiantes', EstudianteViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('registro.urls')),
+<<<<<<< HEAD
     path('api/', include(router.urls)),  # Incluir las rutas de la API después de definir el router
 ]
+=======
+    path('accounts/', include('django.contrib.auth.urls')),
+]
+>>>>>>> 7f4a2880e8d0a1608f5d219da9e6afb3d0623a83

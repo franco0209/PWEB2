@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Curso, Estudiante
 from django.contrib import messages
+<<<<<<< HEAD
 from rest_framework import viewsets
 from .serializers import CursoSerializer, EstudianteSerializer
 
@@ -13,6 +14,21 @@ class EstudianteViewSet(viewsets.ModelViewSet):
     serializer_class = EstudianteSerializer
 
 # Vistas basadas en funciones
+=======
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth import get_user_model
+
+
+CustomUser=get_user_model()
+
+def profile(request):
+    if request.user.es_admin:
+        return redirect('admin_dashboard')
+    else:
+        return redirect('estudiante_dashboard')
+# Create your views here.
+@login_required
+>>>>>>> 7f4a2880e8d0a1608f5d219da9e6afb3d0623a83
 def home(request):
     return render(request, "admin_dashboard.html")
 
@@ -20,6 +36,7 @@ def homeCurso(request):
     cursosListados = Curso.objects.all()
     return render(request, "cursos.html", {"cursos": cursosListados})
 
+@user_passes_test(lambda u: u.es_admin)
 def registrarCurso(request):
     if request.method == 'POST':
         codigo = request.POST['txtCodigo']
@@ -85,14 +102,20 @@ def matricular_curso(request, codigo_curso):
             messages.success(request, 'Matriculado con éxito.')
         
         return redirect('/adminMatricula/')
+<<<<<<< HEAD
     return redirect('/adminMatricula/')  # Cambiar según el diseño de tu formulario
 
+=======
+    
+@login_required
+>>>>>>> 7f4a2880e8d0a1608f5d219da9e6afb3d0623a83
 def homeEstudiantes(request):
     estudiantesListados = Estudiante.objects.all()
     return render(request, "estudiantes.html", {"estudiantes": estudiantesListados})
 
 def registrarEstudiante(request):
     if request.method == 'POST':
+<<<<<<< HEAD
         codigo = request.POST['txtCodigo']
         nombre = request.POST['txtNombre']
         creditos = request.POST["numCreditos"]
@@ -100,6 +123,29 @@ def registrarEstudiante(request):
         Estudiante.objects.create(codigo=codigo, nombre=nombre, creditos_maximos=creditos)
         return redirect('/adminEstudiantes/')
     return render(request, "registrarEstudiante.html")
+=======
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        codigo = request.POST.get('codigo')
+        nombre = request.POST.get('nombre')
+        creditos = request.POST.get('creditos')
+
+        if CustomUser.objects.filter(username=username).exists():
+            messages.error(request, "El nombre de usuario ya está en uso.")
+            return render(request, 'registrar_estudiante.html')
+        
+        user = CustomUser.objects.create_user(username=username, password=password)
+        user.es_estudiante = True
+        user.save()  
+
+        estudiante = Estudiante(user=user, codigo=codigo, nombre=nombre, creditos_maximos=creditos)
+        estudiante.save() 
+        
+        messages.success(request, "Estudiante registrado con éxito.")
+        return redirect('/adminEstudiantes/')
+
+    return render(request, 'registrar_estudiante.html')
+>>>>>>> 7f4a2880e8d0a1608f5d219da9e6afb3d0623a83
 
 def edicionEstudiante(request, codigo):
     estudiante = Estudiante.objects.get(codigo=codigo)
