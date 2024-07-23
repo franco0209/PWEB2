@@ -1,47 +1,62 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Curso, Estudiante
 from django.contrib import messages
+from rest_framework import viewsets
+from .serializers import CursoSerializer, EstudianteSerializer
 
-# Create your views here.
+class CursoViewSet(viewsets.ModelViewSet):
+    queryset = Curso.objects.all()
+    serializer_class = CursoSerializer
+
+class EstudianteViewSet(viewsets.ModelViewSet):
+    queryset = Estudiante.objects.all()
+    serializer_class = EstudianteSerializer
+
+# Vistas basadas en funciones
 def home(request):
-    return render(request,"admin_dashboard.html")
+    return render(request, "admin_dashboard.html")
 
 def homeCurso(request):
     cursosListados = Curso.objects.all()
     return render(request, "cursos.html", {"cursos": cursosListados})
 
 def registrarCurso(request):
-    codigo=request.POST['txtCodigo']
-    nombre=request.POST['txtNombre']
-    creditos=request.POST['numCreditos']
-    cupos=request.POST['numCupos']
+    if request.method == 'POST':
+        codigo = request.POST['txtCodigo']
+        nombre = request.POST['txtNombre']
+        creditos = request.POST['numCreditos']
+        cupos = request.POST['numCupos']
 
-    curso = Curso.objects.create(codigo=codigo, nombre=nombre, creditos=creditos, cupos=cupos)
-    return redirect('/adminCursos/')
+        Curso.objects.create(codigo=codigo, nombre=nombre, creditos=creditos, cupos=cupos)
+        return redirect('/adminCursos/')
+    return render(request, "registrarCurso.html")
 
 def edicionCurso(request, codigo):
     curso = Curso.objects.get(codigo=codigo)
     return render(request, "edicionCurso.html", {"curso": curso})
 
 def editarCurso(request):
-    codigo=request.POST['txtCodigo']
-    nombre=request.POST['txtNombre']
-    creditos=request.POST['numCreditos']
-    cupos=request.POST['numCupos']
+    if request.method == 'POST':
+        codigo = request.POST['txtCodigo']
+        nombre = request.POST['txtNombre']
+        creditos = request.POST['numCreditos']
+        cupos = request.POST['numCupos']
 
-    curso = Curso.objects.get(codigo=codigo)
-    curso.nombre = nombre
-    curso.creditos = creditos
-    curso.cupos=cupos
-    curso.save()
+        curso = Curso.objects.get(codigo=codigo)
+        curso.nombre = nombre
+        curso.creditos = creditos
+        curso.cupos = cupos
+        curso.save()
 
-    return redirect('/adminCursos/')
+        return redirect('/adminCursos/')
+    return redirect('/adminCursos/')  # Cambiar según el diseño de tu formulario
 
 def eliminarCurso(request, codigo):
-    curso =Curso.objects.get(codigo=codigo)
+    curso = Curso.objects.get(codigo=codigo)
     curso.delete()
 
     return redirect('/adminCursos/')
+
 def lista_cursos_estudiante(request):
     cursos = Curso.objects.all()
     return render(request, "lista_cursos_estudiante.html", {"cursos": cursos})
@@ -53,7 +68,8 @@ def matricular_curso(request, codigo_curso):
             estudiante = Estudiante.objects.get(codigo=codigo_estudiante)
             curso = Curso.objects.get(codigo=codigo_curso)
         except:
-                return redirect('/adminMatricula/')
+            return redirect('/adminMatricula/')
+        
         if estudiante.cursos.filter(codigo=codigo_curso).exists():
             messages.error(request, 'Ya estás matriculado en este curso.')
         elif curso.cupos <= 0:
@@ -69,37 +85,45 @@ def matricular_curso(request, codigo_curso):
             messages.success(request, 'Matriculado con éxito.')
         
         return redirect('/adminMatricula/')
+    return redirect('/adminMatricula/')  # Cambiar según el diseño de tu formulario
+
 def homeEstudiantes(request):
     estudiantesListados = Estudiante.objects.all()
     return render(request, "estudiantes.html", {"estudiantes": estudiantesListados})
 
 def registrarEstudiante(request):
-    codigo = request.POST['txtCodigo']
-    nombre = request.POST['txtNombre']
-    creditos=request.POST["numCreditos"]
+    if request.method == 'POST':
+        codigo = request.POST['txtCodigo']
+        nombre = request.POST['txtNombre']
+        creditos = request.POST["numCreditos"]
 
-    Estudiante.objects.create(codigo=codigo, nombre=nombre, creditos_maximos=creditos)
-    return redirect('/adminEstudiantes/')
+        Estudiante.objects.create(codigo=codigo, nombre=nombre, creditos_maximos=creditos)
+        return redirect('/adminEstudiantes/')
+    return render(request, "registrarEstudiante.html")
+
 def edicionEstudiante(request, codigo):
     estudiante = Estudiante.objects.get(codigo=codigo)
     return render(request, "edicionEstudiante.html", {"estudiante": estudiante})
 
 def editarEstudiante(request):
-    codigo=request.POST['txtCodigo']
-    nombre=request.POST['txtNombre']
-    creditos=request.POST["numCreditos"]
+    if request.method == 'POST':
+        codigo = request.POST['txtCodigo']
+        nombre = request.POST['txtNombre']
+        creditos = request.POST["numCreditos"]
 
-    estudiante = Estudiante.objects.get(codigo=codigo)
-    estudiante.nombre = nombre
-    estudiante.save()
+        estudiante = Estudiante.objects.get(codigo=codigo)
+        estudiante.nombre = nombre
+        estudiante.save()
 
-    return redirect('/adminEstudiantes/')
+        return redirect('/adminEstudiantes/')
+    return redirect('/adminEstudiantes/')  # Cambiar según el diseño de tu formulario
 
 def eliminarEstudiante(request, codigo):
-    estudiante =Estudiante.objects.get(codigo=codigo)
+    estudiante = Estudiante.objects.get(codigo=codigo)
     estudiante.delete()
 
     return redirect('/adminEstudiantes/')
+
 def ver_matriculas_estudiante(request):
     estudiantes = Estudiante.objects.all()
     if request.method == 'POST':
