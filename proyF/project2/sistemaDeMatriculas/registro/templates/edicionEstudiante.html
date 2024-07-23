@@ -1,22 +1,22 @@
 {% extends "./plantilla.html" %}
 
-{% block title %} Matricula de Estudiantes {% endblock %}
+{% block title %} Edición de Estudiantes {% endblock %}
 
 {% block body %}
 <div class="row">
     <div class="col-md-4 offset-md-4">
-        <h2>Edicion de estudiante</h2>
+        <h2>Edición de Estudiante</h2>
         <div class="card"> 
             <div class="card-body">
                 <form action="/editarEstudiante/" method="POST">{% csrf_token %}
                     <div class="form-group">
-                        <input type="text" id="txtCodigo" name="txtCodigo" value={{estudiante.codigo}} class="form-control" placeholder="Codigo" minlength="6" maxlength="6" readonly required>
+                        <input type="text" id="codigo" name="codigo" value="{{ estudiante.codigo }}" class="form-control" placeholder="Código" minlength="6" maxlength="6" readonly required>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="txtNombre" name="txtNombre" value={{estudiante.nombre}} class="form-control" placeholder="Nombre" minlength="" maxlength="50" required>
+                        <input type="text" id="nombre" name="nombre" value="{{ estudiante.nombre }}" class="form-control" placeholder="Nombre" maxlength="50" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="numCreditos" name="numCreditos" value={{estudiante.creditos_maximos}} class="form-control" placeholder="Creditos" minlength="" max="50" min="3" required>
+                        <input type="number" id="creditos" name="creditos" value="{{ estudiante.creditos_maximos }}" class="form-control" placeholder="Créditos" min="3" max="50" required>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>

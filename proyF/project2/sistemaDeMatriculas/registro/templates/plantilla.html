@@ -42,15 +42,15 @@
     </section>
     <section id="pagina">
         <div class="container pg-8">
-    {% if messages %}
-        <div class="alert-container">
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
+            {% if messages %}
+            <div class="alert-container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
             {% block body %}
             {% endblock %}

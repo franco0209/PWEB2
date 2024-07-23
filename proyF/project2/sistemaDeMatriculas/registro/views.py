@@ -17,11 +17,11 @@ def profile(request):
 def home(request):
     return render(request,"admin_dashboard.html")
 
+@login_required
 def homeCurso(request):
     cursosListados = Curso.objects.all()
     return render(request, "cursos.html", {"cursos": cursosListados})
 
-@user_passes_test(lambda u: u.es_admin)
 def registrarCurso(request):
     codigo=request.POST['txtCodigo']
     nombre=request.POST['txtNombre']
@@ -29,6 +29,7 @@ def registrarCurso(request):
     cupos=request.POST['numCupos']
 
     curso = Curso.objects.create(codigo=codigo, nombre=nombre, creditos=creditos, cupos=cupos)
+    curso.save()
     return redirect('/adminCursos/')
 
 def edicionCurso(request, codigo):
@@ -65,13 +66,14 @@ def matricular_curso(request, codigo_curso):
             estudiante = Estudiante.objects.get(codigo=codigo_estudiante)
             curso = Curso.objects.get(codigo=codigo_curso)
         except:
+                messages.success(request, 'Código inválido o no registrado.')
                 return redirect('/adminMatricula/')
         if estudiante.cursos.filter(codigo=codigo_curso).exists():
-            messages.error(request, 'Ya estás matriculado en este curso.')
+            messages.success(request, 'Ya estás matriculado en este curso.')
         elif curso.cupos <= 0:
-            messages.error(request, 'No hay cupos disponibles en este curso.')
+            messages.success(request, 'No hay cupos disponibles en este curso.')
         elif estudiante.creditos_usados + curso.creditos > estudiante.creditos_maximos:
-            messages.error(request, 'Superas el límite de créditos permitidos.')
+            messages.success(request, 'Superas el límite de créditos permitidos.')
         else:
             estudiante.cursos.add(curso)
             estudiante.creditos_usados += curso.creditos
@@ -96,8 +98,8 @@ def registrarEstudiante(request):
         creditos = request.POST.get('creditos')
 
         if CustomUser.objects.filter(username=username).exists():
-            messages.error(request, "El nombre de usuario ya está en uso.")
-            return render(request, 'registrar_estudiante.html')
+            messages.success(request, "El nombre de usuario ya está en uso.")
+            return redirect('/adminEstudiantes/')
         
         user = CustomUser.objects.create_user(username=username, password=password)
         user.es_estudiante = True
@@ -109,19 +111,20 @@ def registrarEstudiante(request):
         messages.success(request, "Estudiante registrado con éxito.")
         return redirect('/adminEstudiantes/')
 
-    return render(request, 'registrar_estudiante.html')
+    return redirect('/adminEstudiantes/')
 
 def edicionEstudiante(request, codigo):
     estudiante = Estudiante.objects.get(codigo=codigo)
     return render(request, "edicionEstudiante.html", {"estudiante": estudiante})
 
 def editarEstudiante(request):
-    codigo=request.POST['txtCodigo']
-    nombre=request.POST['txtNombre']
-    creditos=request.POST["numCreditos"]
+    codigo = request.POST.get('codigo')
+    nombre = request.POST.get('nombre')
+    creditos = request.POST.get('creditos')
 
     estudiante = Estudiante.objects.get(codigo=codigo)
     estudiante.nombre = nombre
+    estudiante.creditos_maximos=creditos
     estudiante.save()
 
     return redirect('/adminEstudiantes/')
@@ -131,6 +134,7 @@ def eliminarEstudiante(request, codigo):
     estudiante.delete()
 
     return redirect('/adminEstudiantes/')
+
 def ver_matriculas_estudiante(request):
     estudiantes = Estudiante.objects.all()
     if request.method == 'POST':
