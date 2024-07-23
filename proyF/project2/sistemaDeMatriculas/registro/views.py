@@ -3,7 +3,7 @@ from .models import Curso, Estudiante
 from django.contrib import messages
 from rest_framework import viewsets
 from .serializers import CursoSerializer, EstudianteSerializer
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
 CustomUser = get_user_model()
@@ -26,34 +26,37 @@ def profile(request):
 def home(request):
     return render(request, "admin_dashboard.html")
 
+@login_required
 def homeCurso(request):
     cursosListados = Curso.objects.all()
     return render(request, "cursos.html", {"cursos": cursosListados})
 
-@user_passes_test(lambda u: u.es_admin)
+@login_required
 def registrarCurso(request):
     if request.method == 'POST':
-        codigo = request.POST['txtCodigo']
-        nombre = request.POST['txtNombre']
-        creditos = request.POST['numCreditos']
-        cupos = request.POST['numCupos']
+        codigo = request.POST.get('txtCodigo')
+        nombre = request.POST.get('txtNombre')
+        creditos = request.POST.get('numCreditos')
+        cupos = request.POST.get('numCupos')
 
         Curso.objects.create(codigo=codigo, nombre=nombre, creditos=creditos, cupos=cupos)
         return redirect('/adminCursos/')
     return render(request, "registrarCurso.html")
 
+@login_required
 def edicionCurso(request, codigo):
-    curso = Curso.objects.get(codigo=codigo)
+    curso = get_object_or_404(Curso, codigo=codigo)
     return render(request, "edicionCurso.html", {"curso": curso})
 
+@login_required
 def editarCurso(request):
     if request.method == 'POST':
-        codigo = request.POST['txtCodigo']
-        nombre = request.POST['txtNombre']
-        creditos = request.POST['numCreditos']
-        cupos = request.POST['numCupos']
+        codigo = request.POST.get('txtCodigo')
+        nombre = request.POST.get('txtNombre')
+        creditos = request.POST.get('numCreditos')
+        cupos = request.POST.get('numCupos')
 
-        curso = Curso.objects.get(codigo=codigo)
+        curso = get_object_or_404(Curso, codigo=codigo)
         curso.nombre = nombre
         curso.creditos = creditos
         curso.cupos = cupos
@@ -62,25 +65,29 @@ def editarCurso(request):
         return redirect('/adminCursos/')
     return redirect('/adminCursos/')  # Cambiar según el diseño de tu formulario
 
+@login_required
 def eliminarCurso(request, codigo):
-    curso = Curso.objects.get(codigo=codigo)
+    curso = get_object_or_404(Curso, codigo=codigo)
     curso.delete()
 
     return redirect('/adminCursos/')
 
+@login_required
 def lista_cursos_estudiante(request):
     cursos = Curso.objects.all()
     return render(request, "lista_cursos_estudiante.html", {"cursos": cursos})
 
+@login_required
 def matricular_curso(request, codigo_curso):
     if request.method == 'POST':
         try:
-            codigo_estudiante = request.POST['codigo_estudiante']
-            estudiante = Estudiante.objects.get(codigo=codigo_estudiante)
-            curso = Curso.objects.get(codigo=codigo_curso)
+            codigo_estudiante = request.POST.get('codigo_estudiante')
+            estudiante = get_object_or_404(Estudiante, codigo=codigo_estudiante)
+            curso = get_object_or_404(Curso, codigo=codigo_curso)
         except:
+            messages.error(request, 'Código inválido o no registrado.')
             return redirect('/adminMatricula/')
-        
+
         if estudiante.cursos.filter(codigo=codigo_curso).exists():
             messages.error(request, 'Ya estás matriculado en este curso.')
         elif curso.cupos <= 0:
@@ -94,7 +101,7 @@ def matricular_curso(request, codigo_curso):
             curso.save()
             estudiante.save()
             messages.success(request, 'Matriculado con éxito.')
-        
+
         return redirect('/adminMatricula/')
 
     return redirect('/adminMatricula/')  # Cambiar según el diseño de tu formulario
@@ -104,6 +111,7 @@ def homeEstudiantes(request):
     estudiantesListados = Estudiante.objects.all()
     return render(request, "estudiantes.html", {"estudiantes": estudiantesListados})
 
+@login_required
 def registrarEstudiante(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -114,7 +122,7 @@ def registrarEstudiante(request):
 
         if CustomUser.objects.filter(username=username).exists():
             messages.error(request, "El nombre de usuario ya está en uso.")
-            return render(request, 'registrar_estudiante.html')
+            return redirect('/adminEstudiantes/')
         
         user = CustomUser.objects.create_user(username=username, password=password)
         user.es_estudiante = True
@@ -126,19 +134,21 @@ def registrarEstudiante(request):
         messages.success(request, "Estudiante registrado con éxito.")
         return redirect('/adminEstudiantes/')
 
-    return render(request, 'registrar_estudiante.html')
+    return redirect('/adminEstudiantes/')
 
+@login_required
 def edicionEstudiante(request, codigo):
-    estudiante = Estudiante.objects.get(codigo=codigo)
+    estudiante = get_object_or_404(Estudiante, codigo=codigo)
     return render(request, "edicionEstudiante.html", {"estudiante": estudiante})
 
+@login_required
 def editarEstudiante(request):
     if request.method == 'POST':
-        codigo = request.POST['txtCodigo']
-        nombre = request.POST['txtNombre']
-        creditos = request.POST["numCreditos"]
+        codigo = request.POST.get('codigo')
+        nombre = request.POST.get('nombre')
+        creditos = request.POST.get('creditos')
 
-        estudiante = Estudiante.objects.get(codigo=codigo)
+        estudiante = get_object_or_404(Estudiante, codigo=codigo)
         estudiante.nombre = nombre
         estudiante.creditos_maximos = creditos
         estudiante.save()
@@ -146,12 +156,14 @@ def editarEstudiante(request):
         return redirect('/adminEstudiantes/')
     return redirect('/adminEstudiantes/')  # Cambiar según el diseño de tu formulario
 
+@login_required
 def eliminarEstudiante(request, codigo):
-    estudiante = Estudiante.objects.get(codigo=codigo)
+    estudiante = get_object_or_404(Estudiante, codigo=codigo)
     estudiante.delete()
 
     return redirect('/adminEstudiantes/')
 
+@login_required
 def ver_matriculas_estudiante(request):
     estudiantes = Estudiante.objects.all()
     if request.method == 'POST':
