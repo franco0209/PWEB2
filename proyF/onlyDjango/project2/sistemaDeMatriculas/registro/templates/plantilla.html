@@ -19,10 +19,11 @@
                             <li><a href="#inicio" class="seleccionado"> INICIO </a></li>
                             <li><a href="https://fips.unsa.edu.pe/"> ESCUELA PROFESIONAL</a> </a></li>
                             {% if request.user.es_estudiante %}
-                                <li><a href="{% url 'estudiante_dashboard' %}">PRINCIPAL</a></li>
+                                <li><a href="{% url 'estudiante_dashboard' %}">MATRICULA</a></li>
                             {% else %}
-                                <li><a href="{% url 'adminHome' %}">PRINCIPAL</a></li>
+                                <li><a href="{% url 'adminHome' %}">GESTION DEL SISTEMA</a></li>
                             {% endif %}
+                            
                             <li><a href="http://127.0.0.1:8000/login" > LOGIN </a></li>
                             <li>
                                 <form action="{% url 'logout' %}" method="post" style="display:inline;">
