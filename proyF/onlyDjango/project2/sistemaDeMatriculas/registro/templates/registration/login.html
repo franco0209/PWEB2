@@ -1,0 +1,21 @@
+{% extends "plantilla.html" %}
+
+{% block title %} Login {% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="my-4">Login</h1>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
+            {{ form.password }}
+        </div>
+        <button type="submit" class="btn btn-custom">Login</button>
+    </form>
+</div>
+{% endblock %}

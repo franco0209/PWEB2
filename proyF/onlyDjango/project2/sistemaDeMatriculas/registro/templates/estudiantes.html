@@ -1,0 +1,65 @@
+{% extends "./plantilla.html" %}
+
+{% block title %} Registro de estudiantes {% endblock %}
+
+{% block body %}
+<h1 style="color: black";>i</h1>
+<h4 style="color: black";>i</h4>
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+        <h2 style="color: white";>Registro </h2>
+        <div class="card"> 
+            <div class="card-body">
+                <form action="/registrarEstudiante/" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" id="username" name="username" class="form-control" placeholder="Nombre de usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="codigo" name="codigo" class="form-control" placeholder="Código" minlength="6" maxlength="6" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" maxlength="50" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="creditos" name="creditos" class="form-control" placeholder="Créditos" min="3" max="50" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+        <h1 style="color: white";>Listado de Estudiantes</h1>
+        <div class="table-responsive pg-8">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th style="color: white";>Codigo</th>
+                        <th style="color: white";>Nombre</th>
+                        <th style="color: white";>Creditos</th>
+                        <th colspan="2" style="color: white";>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in estudiantes %}
+                    <tr>
+                        <td style="color: white";>{{forloop.counter}}</td>
+                        <td style="color: white";>{{c.codigo}}</td>
+                        <td style="color: white";>{{c.nombre}}</td>
+                        <td style="color: white";>{{c.creditos_maximos}}</td>
+                        <td><a href="edicionEstudiante/{{c.codigo}}" class="btn btn-info">Editar</a></td>
+                        <td><a href="eliminarEstudiante/{{c.codigo}}" class="btn btn-danger btnEliminacion">Eliminar</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

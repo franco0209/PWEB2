@@ -1,0 +1,43 @@
+{% extends "plantilla.html" %}
+
+{% block title %} Lista de Cursos {% endblock %}
+
+{% block body %}
+<div class="container mt-5 pt-4">
+    <h1 class="text-center mb-4" style="color: #007bff;">Lista de Cursos</h1>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="color: skyblue  ;">Codigo</th>
+                    <th style="color: skyblue;">Nombre</th>
+                    <th style="color: skyblue;">Creditos</th>
+                    <th style="color: skyblue;">Cupos Disponibles</th>
+                    <th style="color: skyblue;">Matricular</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for curso in cursos %}
+                <tr>
+                    <td style="color: white;">{{ curso.codigo }}</td>
+                    <td style="color: white;">{{ curso.nombre }}</td>
+                    <td style="color: white;">{{ curso.creditos }}</td>
+                    <td style="color: white;">{{ curso.cupos }}</td>
+                    <td>
+                        <form action="{% url 'matricular_curso' curso.codigo %}" method="POST">
+                            {% csrf_token %}
+                            <input type="text" name="codigo_estudiante" placeholder="Código de estudiante" required>
+                            <button type="submit" class="btn btn-primary">Matricular</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No hay cursos disponibles.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
