@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import get_user_model
 
+from .models import Estudiante, Curso
 CustomUser=get_user_model()
 
 # Create your views here.
@@ -108,11 +109,11 @@ def matricular_curso(request, codigo_curso):
                 messages.success(request, 'Código inválido o no registrado.')
                 return redirect('/adminMatricula/')
         if estudiante.cursos.filter(codigo=codigo_curso).exists():
-            messages.success(request, 'Ya estás matriculado en este curso.')
+            messages.success(request, 'Ya está matriculado en este curso.')
         elif curso.cupos <= 0:
             messages.success(request, 'No hay cupos disponibles en este curso.')
         elif estudiante.creditos_usados + curso.creditos > estudiante.creditos_maximos:
-            messages.success(request, 'Superas el límite de créditos permitidos.')
+            messages.success(request, 'Supera el límite de créditos permitidos.')
         else:
             estudiante.cursos.add(curso)
             estudiante.creditos_usados += curso.creditos
