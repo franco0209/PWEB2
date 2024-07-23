@@ -9,6 +9,31 @@ th, td{
 	box-sizing: border-box;
 	font-family: 'Montserrat';
 }
+/* styles.css */
+.form-label {
+    font-weight: bold;
+    color: white;
+}
+
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.btn-custom {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-custom:hover {
+    background-color: #0056b3;
+}
 
 html {
 	scroll-behavior: smooth;
