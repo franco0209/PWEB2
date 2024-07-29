@@ -43,6 +43,7 @@
                         <th style="color: white";>Codigo</th>
                         <th style="color: white";>Nombre</th>
                         <th style="color: white";>Creditos</th>
+                        <th style="color: white";>Creditos disponibles</th>
                         <th colspan="2" style="color: white";>Opciones</th>
                     </tr>
                 </thead>
@@ -53,6 +54,7 @@
                         <td style="color: white";>{{c.codigo}}</td>
                         <td style="color: white";>{{c.nombre}}</td>
                         <td style="color: white";>{{c.creditos_maximos}}</td>
+                        <td style="color: white";>{{c.creditosDisponibles}}</td>
                         <td><a href="edicionEstudiante/{{c.codigo}}" class="btn btn-info">Editar</a></td>
                         <td><a href="eliminarEstudiante/{{c.codigo}}" class="btn btn-danger btnEliminacion">Eliminar</a></td>
                     </tr>

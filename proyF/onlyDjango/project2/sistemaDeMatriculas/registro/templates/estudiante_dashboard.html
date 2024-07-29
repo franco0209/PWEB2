@@ -5,7 +5,10 @@
 
 {% block body %}
 <div class="container mt-4">
-    <h1>Bienvenido, {{ request.user.username }}</h1>
+
+    <h1>Bienvenido, {{ estudiante.name }}</h1>
+    <h1 style="color: white">Bienvenido, {{ estudiante.nombre }}</h1>
+    <h2 style="color: white">Creditos disponibes: {{estudiante.creditosDisponibles}}</h2>
 
     <h2 style="color: white">Mis Cursos</h2>
     <div class="row">
@@ -27,6 +30,7 @@
             </div>
         </div>
     </div>
+
 
     <h2 style="color: white">Cursos Disponibles</h2>
     <div class="row">

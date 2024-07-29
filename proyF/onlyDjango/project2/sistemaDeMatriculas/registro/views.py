@@ -3,6 +3,7 @@ from .models import Curso, Estudiante
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 from .models import Estudiante, Curso
 CustomUser=get_user_model()
@@ -32,7 +33,8 @@ def estudiante_dashboard(request):
     
     return render(request, "estudiante_dashboard.html", {
         'cursos_matriculados': cursos_matriculados,
-        'cursos_disponibles': cursos_disponibles
+        'cursos_disponibles': cursos_disponibles,
+        "estudiante":estudiante,
     })
 
 @login_required
@@ -177,7 +179,7 @@ def eliminarEstudiante(request, codigo):
 
 def ver_matriculas_estudiante(request):
     estudiantes = Estudiante.objects.all()
-    if request.method == 'POST':
+    if request.method == 'POST' and 'codigo_estudiante' in request.POST:
         codigo_estudiante = request.POST.get('codigo_estudiante')
         estudiante = get_object_or_404(Estudiante, codigo=codigo_estudiante)
         cursos = estudiante.cursos.all()
@@ -187,3 +189,18 @@ def ver_matriculas_estudiante(request):
             'selected_estudiante': estudiante
         })
     return render(request, "ver_matriculas_estudiante.html", {'estudiantes': estudiantes})
+
+def desmatricular_curso(request):
+    if request.method == 'POST':
+        curso_codigo = request.POST.get('curso_codigo')
+        estudiante_codigo = request.POST.get('estudiante_codigo')
+        curso = get_object_or_404(Curso, codigo=curso_codigo)
+        estudiante = get_object_or_404(Estudiante, codigo=estudiante_codigo)
+        estudiante.cursos.remove(curso)
+        estudiante.creditos_maximos+=curso.creditos
+        estudiante.save()
+        curso.cupos+=1
+        curso.save()
+        return redirect(reverse('ver_matriculas_estudiante'))
+
+    return redirect(reverse('ver_matriculas_estudiante'))

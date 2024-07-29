@@ -21,5 +21,6 @@ urlpatterns = [
     path('adminEstudiantes/edicionEstudiante/<codigo>', views.edicionEstudiante),
     path('editarEstudiante/', views.editarEstudiante),
     path('adminEstudiantes/eliminarEstudiante/<codigo>', views.eliminarEstudiante), 
-    path('verMatriculasEstudiante/', views.ver_matriculas_estudiante, name='ver_matriculas_estudiante'),
+    path('ver_matriculas_estudiante/', views.ver_matriculas_estudiante, name='ver_matriculas_estudiante'),
+    path('desmatricular_curso/', views.desmatricular_curso, name='desmatricular_curso'),
     ]

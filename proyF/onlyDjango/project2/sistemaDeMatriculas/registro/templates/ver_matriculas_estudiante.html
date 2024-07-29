@@ -23,10 +23,19 @@
 
         {% if selected_estudiante %}
             <h5 style="color: aliceblue;">Codigo:  {{ selected_estudiante.codigo }}</h5>
-            <h3 style="color: aliceblue;">Cursos en los que está matriculado {{ selected_estudiante.nombre |upper}}:</h3>
+            <h5 style="color: aliceblue;">Creditos disponibles: {{ selected_estudiante.creditosDisponibles }}</h5>
+            <h5 style="color: aliceblue;">Cursos en los que está matriculado {{ selected_estudiante.nombre |upper}}:</h5>
             <ul class="list-group">
                 {% for curso in cursos %}
-                    <li class="list-group-item">{{ curso.nombre }}</li>
+                    <li class="list-group-item" style="color: blue;">
+                        {{ curso.nombre }}
+                        <form method="POST" action="{% url 'desmatricular_curso' %}" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="curso_codigo" value="{{ curso.codigo }}">
+                            <input type="hidden" name="estudiante_codigo" value="{{ selected_estudiante.codigo }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Desmatricular</button>
+                        </form>
+                    </li>
                 {% empty %}
                     <li class="list-group-item">No hay cursos matriculados.</li>
                 {% endfor %}
